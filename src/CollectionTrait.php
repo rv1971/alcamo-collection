@@ -9,22 +9,10 @@ namespace alcamo\collection;
  */
 trait CollectionTrait
 {
+    use CollectionDataTrait;
     use CountableTrait;
     use ArrayIteratorTrait;
     use ReadArrayAccessTrait;
     use WriteArrayAccessTrait;
     use ArrayContainsTrait;
-
-    protected $data_ = [];
-
-    /// Ensure that $data_ is intitialized with a (potentially empty) array
-    public function __construct(?array $data = null)
-    {
-        $this->data_ = (array)$data;
-    }
-
-    public function getKeys(): array
-    {
-        return array_keys($this->data_);
-    }
 }
