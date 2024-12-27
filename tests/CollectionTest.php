@@ -22,6 +22,8 @@ class CollectionTest extends TestCase
 
         $this->assertFalse($a->contains('FOO'));
 
+        $this->assertSame([ 0, 1, 2 ], $a->getKeys());
+
         $data2 = [];
 
         foreach ($a as $key => $value) {
