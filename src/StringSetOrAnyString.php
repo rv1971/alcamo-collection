@@ -25,7 +25,13 @@ class StringSetOrAnyString
     public function __construct($values = null)
     {
         if ($values != '*') {
-            $this->set_ = isset($values) ? new Set($values) : new Set();
+            $this->set_ = new Set();
+
+            if (isset($values)) {
+                /* This ensures that all values are converted to strings if
+                 * necessary. */
+                $this->add(...$values);
+            }
         }
     }
 

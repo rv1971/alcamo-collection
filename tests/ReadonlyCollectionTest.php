@@ -7,47 +7,17 @@ use alcamo\exception\ReadonlyViolation;
 
 class ReadonlyCollectionTest extends TestCase
 {
-    public function testBasics()
+    public function testSet()
     {
-        $data = [ 'foo', 'bar', 'baz', 42, 'qux' ];
+        $a = new ReadonlyCollection([]);
 
-        $a = new ReadonlyCollection($data);
+        $this->expectException(ReadonlyViolation::class);
+        $this->expectExceptionMessage(
+            'Attempt to modify readonly object <' . ReadonlyCollection::class
+            . '> in method offsetSet()'
+        );
 
-        $this->assertSame(count($data), count($a));
-
-        $this->assertSame('foo', $a->first());
-
-        $this->assertSame('qux', $a->last());
-
-        $this->assertTrue($a->contains(42));
-
-        $this->assertFalse($a->contains('42'));
-
-        $this->assertTrue($a->contains('foo'));
-
-        $data2 = [];
-
-        foreach ($a as $key => $value) {
-            $data2[$key] = $value;
-        }
-
-        $this->assertEquals($data, $data2);
-
-        $this->assertSame('baz', $a[2]);
-
-        $this->assertTrue(isset($a[2]));
-
-        $this->assertFalse(isset($a[5]));
-
-        $this->assertFalse(isset($a[6]));
-
-        $b = new ReadonlyCollection();
-
-        $this->assertSame(0, count($b));
-
-        $this->assertSame(null, $b->first());
-
-        $this->assertSame(null, $b->last());
+        $a[0] = 1;
     }
 
     public function testUnset()
@@ -61,18 +31,5 @@ class ReadonlyCollectionTest extends TestCase
         );
 
         unset($a[0]);
-    }
-
-    public function testSet()
-    {
-        $a = new ReadonlyCollection([]);
-
-        $this->expectException(ReadonlyViolation::class);
-        $this->expectExceptionMessage(
-            'Attempt to modify readonly object <' . ReadonlyCollection::class
-            . '> in method offsetSet()'
-        );
-
-        $a[0] = 1;
     }
 }

@@ -13,7 +13,7 @@ namespace alcamo\collection;
  *
  * @date Last reviewed 2025-10-12
  */
-trait WriteStringIndexedArrayAccessTrait
+trait StringIndexedWriteArrayAccessTrait
 {
     public function offsetSet($offset, $value): void
     {

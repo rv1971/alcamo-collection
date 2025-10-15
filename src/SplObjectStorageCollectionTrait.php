@@ -16,5 +16,4 @@ trait SplObjectStorageCollectionTrait
     use SplObjectStorageIteratorTrait;
     use ReadArrayAccessTrait;
     use WriteArrayAccessTrait;
-    use ContainsTrait;
 }

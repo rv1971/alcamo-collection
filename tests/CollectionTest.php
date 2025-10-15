@@ -4,71 +4,95 @@ namespace alcamo\collection;
 
 use PHPUnit\Framework\TestCase;
 
+class MyString
+{
+    private $string_;
+
+    public function __construct(string $string)
+    {
+        $this->string_ = $string;
+    }
+
+    public function __toString(): string
+    {
+        return $this->string_;
+    }
+}
+
 class CollectionTest extends TestCase
 {
-    public function testBasics()
+    /**
+     * @dataProvider basicsProvider
+     */
+    public function testBasics(?array $data): void
     {
-        $data = [ 'foo', 'bar', 'baz' ];
+        /* test ArrayDataTrait */
+        $collection = new Collection($data);
 
-        $a = new Collection($data);
+        /* test CountableTrait */
+        $this->assertSame(count($data ?? []), count($collection));
 
-        $this->assertSame(count($data), count($a));
+        /* test ArrayIteratorTrait */
+        if (isset($data)) {
+            $data2 = [];
 
-        $this->assertSame('foo', $a->first());
-
-        $this->assertSame('baz', $a->last());
-
-        $this->assertTrue($a->contains('foo'));
-
-        $this->assertFalse($a->contains('FOO'));
-
-        $this->assertSame([ 0, 1, 2 ], $a->getKeys());
-
-        $data2 = [];
-
-        foreach ($a as $key => $value) {
-            foreach (clone $a as $dummy) {
-                /* do nothing, but show that the clone is iterated
-                 * independently of the original object */
+            foreach ($collection as $key => $value) {
+                $data2[$key] = $value;
             }
 
-            $data2[$value] = $key;
+            $this->assertSame($data, $data2);
+
+            $this->assertSame(reset($data), $collection->first());
+            $this->assertSame(end($data), $collection->last());
+            $this->assertSame(array_keys($data), $collection->getKeys());
+        } else {
+            $this->assertNull($collection->first());
+            $this->assertNull($collection->last());
+            $this->assertSame([], $collection->getKeys());
         }
 
-        $data2 = array_flip($data2);
+        /* test StringIndexedReadArrayAccessTrait */
+        $this->assertFalse(isset($collection['fooo']));
+        $this->assertNull($collection['baar']);
 
-        $this->assertEquals($data, $data2);
+        if (isset($data)) {
+            $key = array_keys($data)[1];
 
-        $this->assertSame('bar', $a[1]);
+            $this->assertTrue(isset($collection[new MyString($key)]));
+            $this->assertSame($data[$key], $collection[new MyString($key)]);
+        }
 
-        $this->assertTrue(isset($a[2]));
+        /* test ContainsTrait */
+        $this->assertFalse($collection->contains('bazz'));
 
-        $this->assertFalse(isset($a[3]));
+        if (isset($data)) {
+            foreach ($data as $value) {
+                $this->assertTrue($collection->contains($value));
+            }
+        }
 
-        $this->assertFalse(isset($a[3]));
+        /* test StringIndexedWriteArrayAccessTrait */
+        $collection[new MyString('corge')] = 'CORGE';
 
-        $a[3] = 'qux';
+        $this->assertSame('CORGE', $collection['corge']);
+        $this->assertSame(count($data ?? []) + 1, count($collection));
 
-        $this->assertSame(count($data) + 1, count($a));
+        if (isset($data)) {
+            $key = array_keys($data)[2];
 
-        $this->assertSame('foo', $a->first());
+            unset($collection[new MyString($key)]);
 
-        $this->assertSame('qux', $a->last());
+            $this->assertFalse(isset($collection[$key]));
+            $this->assertSame(count($data), count($collection));
+        }
+    }
 
-        $this->assertSame('qux', $a[3]);
-
-        unset($a[0]);
-
-        $this->assertNull($a[0]);
-
-        $this->assertSame('bar', $a->first());
-
-        $b = new Collection();
-
-        $this->assertSame(0, count($b));
-
-        $this->assertSame(null, $b->first());
-
-        $this->assertSame(null, $b->last());
+    public function basicsProvider(): array
+    {
+        return [
+            [ null ],
+            [ [ 'foo', 'bar', 'baz' ] ],
+            [ [ 'f' => 'foo', 'b' => 'bar', 'z' => 'baz', 'x' => 'qux' ] ]
+        ];
     }
 }

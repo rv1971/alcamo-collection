@@ -6,60 +6,85 @@ use PHPUnit\Framework\TestCase;
 
 class SplObjectStorageCollectionTest extends TestCase
 {
-    public function testBasics()
+    private $foo;
+    private $bar;
+    private $baz;
+    private $qux;
+
+    private $fooo;
+    private $baar;
+
+    private $corge;
+
+    public function setUp(): void
     {
-        $foo = (object)['id' => 'foo'];
-        $bar = (object)['id' => 'bar'];
-        $baz = (object)['id' => 'baz'];
-        $qux = (object)['id' => 'qux'];
+        foreach (
+            ['foo', 'bar', 'baz', 'qux', 'fooo', 'baar', 'corge'] as $id
+        ) {
+            $this->$id = (object)[ 'id' => $id ];
+        }
+    }
 
-        $storage = new \SplObjectStorage();
-
-        $storage[$foo] = 'Foo';
-        $storage[$bar] = 'Bar';
-        $storage[$baz] = 'Baz';
-
-        $collection = new SplObjectStorageCollection($storage);
-
-        $this->assertSame(3, count($collection));
-
-        $values = [];
-
-        foreach ($collection as $key => $value) {
-            foreach (clone $collection as $dummy) {
-                /* do nothing, but show that the clone is iterated
-                 * independently of the original object */
+    /**
+     * @dataProvider basicsProvider
+     */
+    public function testBasics(?\SplObjectStorage $data): void
+    {
+        if (isset($data)) {
+            foreach (['foo', 'bar', 'baz', 'qux'] as $id) {
+                $data[$this->$id] = $id;
             }
-
-            $values[$key->id] = $value;
         }
 
-        $this->assertSame(
-            [ 'foo' => 'Foo', 'bar' => 'Bar', 'baz' => 'Baz' ],
-            $values
+        /* test SplObjectStorageDataTrait */
+        $collection = new SplObjectStorageCollection(
+            isset($data) ? clone $data : null
         );
 
-        $this->assertTrue($collection->contains($foo));
-        $this->assertTrue($collection->contains($bar));
-        $this->assertTrue($collection->contains($baz));
-        $this->assertFalse($collection->contains($qux));
+        /* test CountableTrait */
+        $this->assertSame(count($data ?? []), count($collection));
 
-        $this->assertTrue(isset($collection[$foo]));
-        $this->assertTrue(isset($collection[$bar]));
-        $this->assertTrue(isset($collection[$baz]));
+        /* test SplObjectStorageIteratorTrait */
+        if (isset($data)) {
+            $data2 = new \SplObjectStorage();
 
-        $this->assertSame('Foo', $collection[$foo]);
-        $this->assertSame('Bar', $collection[$bar]);
-        $this->assertSame('Baz', $collection[$baz]);
+            foreach ($collection as $key => $value) {
+                $data2[$key] = $value;
+            }
 
-        $collection[$foo] = 'Unfoo';
-        unset($collection[$bar]);
+            $this->assertEquals($data, $data2);
+        }
 
-        $this->assertTrue(isset($collection[$foo]));
-        $this->assertFalse(isset($collection[$bar]));
-        $this->assertTrue(isset($collection[$baz]));
+        /* test ReadArrayAccessTrait */
+        $this->assertFalse(isset($collection[$this->fooo]));
+        $this->assertNull($collection[$this->baar]);
 
-        $this->assertSame('Unfoo', $collection[$foo]);
-        $this->assertSame('Baz', $collection[$baz]);
+        if (isset($data)) {
+            $this->assertTrue(isset($collection[$this->foo]));
+            $this->assertSame($data[$this->foo], $collection[$this->foo]);
+        }
+
+        /* test WriteArrayAccessTrait */
+        $collection[$this->corge] = 'CORGE';
+
+        $this->assertSame('CORGE', $collection[$this->corge]);
+        $this->assertSame(count($data ?? []) + 1, count($collection));
+
+        if (isset($data)) {
+            unset($collection[$this->baz]);
+
+            $this->assertFalse(isset($collection[$this->baz]));
+            $this->assertSame(count($data), count($collection));
+        }
+    }
+
+    public function basicsProvider(): array
+    {
+        $data1 = new \SplObjectStorage();
+
+        return [
+            [ null ],
+            [ $data1 ]
+        ];
     }
 }

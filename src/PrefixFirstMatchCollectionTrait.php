@@ -14,5 +14,5 @@ trait PrefixFirstMatchCollectionTrait
     use ArrayIteratorTrait;
     use PrefixFirstMatchReadArrayAccessTrait;
     use WriteArrayAccessTrait;
-    use ArrayContainsTrait;
+    use ContainsTrait;
 }

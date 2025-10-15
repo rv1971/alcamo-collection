@@ -14,7 +14,7 @@ class ReadonlyPrefixSet implements \Countable, \IteratorAggregate
     use CountableTrait;
     use IteratorAggregateTrait;
 
-    private const ESCAPE_PAIRS = [
+    protected const ESCAPE_PAIRS = [
         '\\' => '\\\\',
         '^' => '\^',
         '$' => '\$',
@@ -28,7 +28,8 @@ class ReadonlyPrefixSet implements \Countable, \IteratorAggregate
         '*' => '\*',
         '+' => '\+',
         '{' => '\{',
-        '}' => '\}'
+        '}' => '\}',
+        '~' => '\~'
     ];
 
     protected $data_; ///< Set of prefixes.
@@ -50,6 +51,7 @@ class ReadonlyPrefixSet implements \Countable, \IteratorAggregate
                 preg_split(
                     $sepRegexp ?? '/\s+/',
                     $prefixText,
+                    -1,
                     PREG_SPLIT_NO_EMPTY
                 )
             )
@@ -58,8 +60,6 @@ class ReadonlyPrefixSet implements \Countable, \IteratorAggregate
 
     /**
      * @param $prefixes Set of prefixes
-     *
-     * @todo Mask PCRE special characters in $prefixes.
      */
     public function __construct(Set $prefixes)
     {

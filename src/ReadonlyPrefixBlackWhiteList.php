@@ -32,6 +32,7 @@ class ReadonlyPrefixBlackWhiteList extends ReadonlyPrefixSet
                 preg_split(
                     $sepRegexp ?? '/\s+/',
                     $prefixText,
+                    -1,
                     PREG_SPLIT_NO_EMPTY
                 )
             ),
