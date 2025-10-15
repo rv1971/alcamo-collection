@@ -3,25 +3,20 @@
 namespace alcamo\collection;
 
 /**
- * @brief Provide the writing methods of the ArrayAccess interface accessing
- * a class property $data_
- *
- * @attention Any class using this trait must provide a class property $data_
- * which must contain an array or an
- * [ArrayAccess](https://www.php.net/manual/en/class.arrayaccess).
+ * @brief Provide the write methods of ArrayAccess accessing $data_
  *
  * @sa [ArrayAccess interface](https://www.php.net/manual/en/class.arrayaccess)
  *
- * @date Last reviewed 2021-06-08
+ * @date Last reviewed 2025-10-12
  */
 trait WriteArrayAccessTrait
 {
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->data_[$offset] = $value;
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->data_[$offset]);
     }

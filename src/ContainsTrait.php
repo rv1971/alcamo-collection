@@ -3,15 +3,16 @@
 namespace alcamo\collection;
 
 /**
- * @brief Provide contains() accessing a class property $data_
+ * @brief Provide contains()
  *
- * @attention Any class using this trait must provide a class property $data_
- * which contains an object that has a method contains().
+ * @date Last reviewed 2025-10-13
  */
 trait ContainsTrait
 {
     public function contains($value): bool
     {
-        return $this->data_->contains($value);
+        return is_object($this->data_)
+            ? $this->data_->contains($value)
+            : in_array($value, $this->data_, true);
     }
 }

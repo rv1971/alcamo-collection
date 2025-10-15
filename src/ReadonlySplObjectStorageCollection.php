@@ -3,7 +3,9 @@
 namespace alcamo\collection;
 
 /**
- * @brief Readonly class wrapping an SplObjectStorage
+ * @brief Readonly collection class based on an SplObjectStorage as its inner object
+ *
+ * @date Last reviewed 2025-10-14
  */
 class ReadonlySplObjectStorageCollection implements \Countable, \Iterator, \ArrayAccess
 {

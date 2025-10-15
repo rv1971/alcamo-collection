@@ -3,18 +3,15 @@
 namespace alcamo\collection;
 
 /**
- * @brief Provide the Iterator interface by accessing a class property $data_
+ * @brief Provide the Iterator interface by accessing an array $data_
  *
- * @attention Any class using this trait must provide a class property $data_
- * which must contain an array.
+ * @sa [`Iterator` interface](https://www.php.net/manual/en/class.iterator)
  *
- * @sa [Iterator interface](https://www.php.net/manual/en/class.iterator)
- *
- * @date Last reviewed 2021-06-08
+ * @date Last reviewed 2025-10-13
  */
 trait ArrayIteratorTrait
 {
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->data_);
     }
@@ -29,7 +26,7 @@ trait ArrayIteratorTrait
         return key($this->data_);
     }
 
-    public function next()
+    public function next(): void
     {
         next($this->data_);
     }
@@ -53,5 +50,11 @@ trait ArrayIteratorTrait
         return $this->data_
             ? $this->data_[array_key_last($this->data_)]
             : null;
+    }
+
+    /// Return all array keys
+    public function getKeys(): array
+    {
+        return array_keys($this->data_);
     }
 }

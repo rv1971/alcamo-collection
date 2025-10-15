@@ -3,25 +3,23 @@
 namespace alcamo\collection;
 
 /**
- * @brief Read the first array item mathing an initial portion of an offset
+ * @brief Read the first array item matching an initial portion of an offset
+ * string
  *
- * This implementation of the read methods of ArrayAccess look for the *first*
- * array element whose key matches an initial substring of $offset. This
- * implies that order of the underlying array may be significant.
+ * This implementation looks for the *first* array element whose key matches
+ * an initial substring of $offset. This implies that order of the underlying
+ * array may be significant.
  *
- * @attention Any class using this trait must provide a class property $data_
- * which must contain an array or an
- * [ArrayAccess](https://www.php.net/manual/en/class.arrayaccess).
- *
- * @sa [ArrayAccess interface](https://www.php.net/manual/en/class.arrayaccess)
+ * @date Last reviewed 2025-10-14
  */
 trait PrefixFirstMatchReadArrayAccessTrait
 {
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         foreach ($this->data_ as $key => $value) {
             /* strncmp() is unsuitable because it would return true also when
-             * $offset were a proper intial substring of $key. */
+             * $offset were a proper intial substring of $key, instead of vice
+             * versa. */
             if (substr($offset, 0, strlen($key)) == $key) {
                 return true;
             }

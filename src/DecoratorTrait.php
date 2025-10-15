@@ -3,12 +3,9 @@
 namespace alcamo\collection;
 
 /**
- * @brief Provide __call() accessing a class property $data_
+ * @brief Forward calls of unknown methods to $data_
  *
- * @attention Any class using this trait must provide a class property $data_
- * which must contain an object.
- *
- * @date Last reviewed 2021-06-08
+ * @date Last reviewed 2025-10-12
  */
 trait DecoratorTrait
 {

@@ -7,35 +7,55 @@ use Ds\Set;
 /**
  * @brief Blacklist or whitelist of prefixes
  *
- * @warning The prefixes must not contain pipe characters because of a
- * restriction of the parent class.
+ * @date Last reviewed 2025-10-15
  */
 class ReadonlyPrefixBlackWhiteList extends ReadonlyPrefixSet
 {
     use BlackWhiteListTrait;
 
-    /// Create from whitespace-separated list of prefixes
+    /**
+     * @brief Create from list of prefixes
+     *
+     * @param $prefixText String of prefixes
+     *
+     * @param $isBlacklist Whether this is a blacklist.
+     *
+     * @param $sepRegexp Separator regular expression [default whitespace]
+     */
     public static function newFromStringAndBool(
         string $prefixText,
-        ?bool $isBlacklist = null
-    ): ReadonlyPrefixSet {
+        ?bool $isBlacklist = null,
+        ?string $sepRegexp = null
+    ): self {
         return new self(
-            new Set(preg_split('/\s+/', $prefixText)),
+            new Set(
+                preg_split(
+                    $sepRegexp ?? '/\s+/',
+                    $prefixText,
+                    PREG_SPLIT_NO_EMPTY
+                )
+            ),
             $isBlacklist
         );
     }
 
     /**
-     * @brief Create from whitespace-separated list of prefixes
+    /**
+     * @brief Create from list of prefixes
      *
-     * Return a blacklist if the first character is an exclamation mark.
+     * @param $prefixText String of prefixes. Return a blacklist if the first
+     * character is an exclamation mark. The exclamation mark may optionally
+     * be followed by a separator.
+     *
+     * @param $sepRegexp Separator regular expression [default whitespace]
      */
     public static function newFromStringWithOperator(
-        string $prefixText
-    ): ReadonlyPrefixSet {
+        string $prefixText,
+        ?string $sepRegexp = null
+    ): self {
         if ($prefixText[0] == '!') {
             $isBlacklist = true;
-            $prefixText = ltrim(substr($prefixText, 1));
+            $prefixText = substr($prefixText, 1);
         } else {
             $isBlacklist = false;
         }

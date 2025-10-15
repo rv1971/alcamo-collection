@@ -3,16 +3,16 @@
 namespace alcamo\collection;
 
 /**
- * @brief Provide all array-like interfaces and a property $data_ they refer to.
+ * @brief Collection trait based on an array as its inner object
  *
- * @date Last reviewed 2021-06-08
+ * @date Last reviewed 2025-10-14
  */
 trait CollectionTrait
 {
-    use CollectionDataTrait;
+    use ArrayDataTrait;
     use CountableTrait;
     use ArrayIteratorTrait;
-    use ReadArrayAccessTrait;
-    use WriteArrayAccessTrait;
-    use ArrayContainsTrait;
+    use StringIndexedReadArrayAccessTrait;
+    use StringIndexedWriteArrayAccessTrait;
+    use ContainsTrait;
 }

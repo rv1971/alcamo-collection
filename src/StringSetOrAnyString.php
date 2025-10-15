@@ -8,23 +8,24 @@ use Ds\Set;
  * @brief Finite set of strings or set of all strings
  *
  * All values are converted to strings and compared as strings.
+ *
+ * Just as for `Ds\Set`, the methods `add()` and `remove()` modify the object
+ * while `intersect()` creates a new object, leving this object unchanged.
+ *
+ * @date Last reviewed 2025-10-15
  */
 class StringSetOrAnyString
 {
     private $set_; ///< ?Set; `null` means any string
 
     /**
-     * @param $values The constant '*' (meaning any string) or an array or
-     * traversable
+     * @param $values Either the constant '*' (meaning any string) or an array
+     * or traversable
      */
     public function __construct($values = null)
     {
         if ($values != '*') {
-            $this->set_ = new Set();
-
-            if (isset($values)) {
-                $this->add(...$values);
-            }
+            $this->set_ = isset($values) ? new Set($values) : new Set();
         }
     }
 

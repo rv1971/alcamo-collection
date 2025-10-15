@@ -3,9 +3,9 @@
 namespace alcamo\collection;
 
 /**
- * @brief Class that behaves much like a readonly array
+ * @brief Readonly collection class based on an array as its inner object
  *
- * @date Last reviewed 2021-06-08
+ * @date Last reviewed 2025-10-14
  */
 class ReadonlyCollection implements \Countable, \Iterator, \ArrayAccess
 {

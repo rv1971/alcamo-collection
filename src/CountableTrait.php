@@ -3,15 +3,11 @@
 namespace alcamo\collection;
 
 /**
- * @brief Provide the Countable interface accessing a class property $data_
- *
- * @attention Any class using this trait must provide a class property $data_
- * which contains an array or a
- * [Countable interface](https://www.php.net/manual/en/class.countable).
+ * @brief Provide the Countable interface accessing $data_
  *
  * @sa [Countable interface](https://www.php.net/manual/en/class.countable)
  *
- * @date Last reviewed 2021-06-08
+ * @date Last reviewed 2025-10-13
  */
 trait CountableTrait
 {

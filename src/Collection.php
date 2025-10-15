@@ -5,13 +5,13 @@ namespace alcamo\collection;
 /**
  * @namespace alcamo::collection
  *
- * @brief Generic classes and traits that work to some extent like arrays
+ * @brief Collection traits and classes featuring array-like behaviour
  */
 
 /**
- * @brief Class that behaves much like an array
+ * @brief Collection class based on an array as its inner object
  *
- * @date Last reviewed 2021-06-08
+ * @date Last reviewed 2025-10-14
  */
 class Collection implements \Countable, \Iterator, \ArrayAccess
 {

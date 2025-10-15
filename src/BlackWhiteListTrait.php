@@ -2,7 +2,14 @@
 
 namespace alcamo\collection;
 
-/// Common code for black/white-lists
+/**
+ * @brief Common code for black/white-lists
+ *
+ * This trait deliberately lacks a constructor or any other method to set
+ * `$isBlacklist_` since this depends on the way it is used.
+ *
+ * @date Last reviewed 2025-10-14
+ */
 trait BlackWhiteListTrait
 {
     private $isBlacklist_; ///< bool
