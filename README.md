@@ -1,3 +1,38 @@
+# Usage exmaple
+
+~~~
+use alcamo\collection\Collection;
+
+class CollectionWithHash extends Collection
+{
+    public function sha1(): string
+    {
+        return sha1(implode('|', $this->data_));
+    }
+}
+
+$collection = new CollectionWithHash([ 'foo', 'bar' ]);
+
+echo $collection[0] . "\n";
+
+echo count($collection) . "\n";
+
+echo $collection->sha1() . "\n";
+~~~
+
+This will output
+
+~~~
+foo
+2
+4fa0d6984df3b91af1f0942b7522987783050b90
+~~~
+
+The `$collection` object behaves very much like an array, supporting
+`count()`, iteration and array access. You can add functionality by
+adding more methods to your class derived from `Collection`.
+
+
 # Overview
 
 This package provides collection traits and classes featuring
@@ -34,9 +69,9 @@ some of which are based on this mechanism.
   `ReadonlyPrefixFirstMatchCollection` (using
   `ReadonlyPrefixFirstMatchCollectionTrait`) do the same as
   `Collection` and `ReadonlyCollection` except that array access works
-  on the *first* array element that matches an *initial substring* of
-  the supplied offset string (or object which is implicitely converted
-  to a string).
+  on the *first* array elementwhose key matches an *initial substring*
+  of the supplied offset string (or object which is implicitly
+  converted to a string).
 * `ReadonlyPrefixSet` is a particular-purpose class making use of the
   traits in this package. It implements a set of prefixes and provides
   an efficient method `contains()` that checks whether a given string
@@ -44,8 +79,8 @@ some of which are based on this mechanism.
 * `ReadonlyPrefixBlackWhiteList` is based on `ReadonlyPrefixSet`,
   adding the feature that the object can be used as either a blacklist
   or a whitelist.
-* `StringSetOrAnyString` implements an object which either a finite
-  set of strings or a set that represents all strings.
+* `StringSetOrAnyString` implements an object which represents either
+  a finite set of strings or the set of all strings.
 
 # Provided traits
 
@@ -53,8 +88,8 @@ The above classes and traits are built from the following atomic traits.
 
 ## Traits providing the inner object
 
-* `ArrayDataTrait` provides an inner objectof type `array`.
-* `SplObjectStorageDataTrait` provides an inner objectof type `SplObjectStorage`
+* `ArrayDataTrait` provides an inner object of type `array`.
+* `SplObjectStorageDataTrait` provides an inner object of type `SplObjectStorage`
 
 Extensions of this package can easily provide similar traits for other
 object types.
@@ -72,15 +107,15 @@ items in `$data_`. It works for both arrays and objects.
 ## Iteration
 
 * `ArrayIteratorTrait` provides the methods needed for the [`Iterator`
-  interface](https://www.php.net/manual/en/class.iterator). To use it,
-  `$data_` must be an array. In addition, this trait supplies methods
-  to access the first and the last value in the array and to get all
-  keys of the array.
+  interface](https://www.php.net/manual/en/class.iterator) when
+  `$data_` is an array. In addition, this trait supplies methods to
+  access the first and the last value in the array and to get all keys
+  of the array.
 * `ObjectIteratorTrait` does the same for an inner object that
   implements `Iterator`.
 * `SplObjectStorageIteratorTrait` does the same for an inner object of
   class `SplObjectStorageIterator`. A separate trait is needed because
-  SplObjectStorage iteration [does not behave as one would
+  `SplObjectStorage` iteration [does not behave as one would
   expect](https://bugs.php.net/bug.php?id=49967).
 * `IteratorAggregateTrait` provides the methods needed for the
   [`IteratorAggregate`
@@ -102,8 +137,9 @@ iteration, but the developer must know at compile time which type
   the have a `__toString()` method.
 * `PrefixFirstMatchReadArrayAccessTrait` works similar to
   `StringIndexedReadArrayAccessTrait` but works on the *first* array
-  element that matches an *initial substring* of the supplied offset
-  string (or object which is implicitely converted to a string).
+  element whose key matches an *initial substring* of the supplied
+  offset string (or object which is implicitly converted to a
+  string).
 * `WriteArrayAccessTrait` provides the methods of `ArrayAccess` needed
   for writing.
 * `StringIndexedWriteArrayAccessTrait` does the same but converts all
