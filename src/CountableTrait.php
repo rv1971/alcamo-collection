@@ -11,7 +11,7 @@ namespace alcamo\collection;
  */
 trait CountableTrait
 {
-    public function count()
+    public function count(): int
     {
         return count($this->data_);
     }

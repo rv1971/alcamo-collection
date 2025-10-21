@@ -19,8 +19,8 @@ class StringSetOrAnyString
     private $set_; ///< ?Set; `null` means any string
 
     /**
-     * @param $values Either the constant '*' (meaning any string) or an array
-     * or traversable
+     * @param $values Either the constant '*' (meaning any string) or an
+     * iterable
      */
     public function __construct($values = null)
     {
