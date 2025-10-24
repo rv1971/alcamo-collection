@@ -14,6 +14,7 @@ class ReadonlyPrefixSet implements \Countable, \IteratorAggregate
     use CountableTrait;
     use IteratorAggregateTrait;
 
+    /// Characters to escape when creating the regular expression
     protected const ESCAPE_PAIRS = [
         '\\' => '\\\\',
         '^' => '\^',

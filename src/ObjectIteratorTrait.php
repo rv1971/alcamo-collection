@@ -3,8 +3,8 @@
 namespace alcamo\collection;
 
 /**
- * @brief Provide the Iterator interface by accessing an object $data_ that
- *  itself implements the Iterator interface
+ * @brief Provide the Iterator interface by accessing an object $data_ that is
+ * traversable itself.
  *
  * @sa [`Iterator` interface](https://www.php.net/manual/en/class.iterator)
  *

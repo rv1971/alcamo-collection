@@ -2,6 +2,7 @@
 
 namespace alcamo\collection;
 
+use alcamo\exception\Unsupported;
 use Ds\Set;
 
 /**
@@ -35,6 +36,7 @@ class StringSetOrAnyString
         }
     }
 
+    /// Whether this is a proper subset of the set of all string
     public function isFinite(): bool
     {
         return isset($this->set_);
@@ -45,6 +47,12 @@ class StringSetOrAnyString
         return !isset($this->set_) || $this->set_->contains($value);
     }
 
+    /**
+     * @brief Add strings to the set
+     *
+     * If the present object is the set of all strings, this does not make a
+     * difference.
+     */
     public function add(string ...$values): void
     {
         if (isset($this->set_)) {
@@ -52,13 +60,25 @@ class StringSetOrAnyString
         }
     }
 
+    /// Remove strings from the set if the set is finite
     public function remove(string ...$values): void
     {
         if (isset($this->set_)) {
             $this->set_->remove(...$values);
+        } elseif ($values) {
+            /** @throw alcamo::exception::Unsupported when attempting to
+             *  remove a nonempty set of strings from the set of all
+             *  strings. */
+            throw (new Unsupported())->setMessageContext(
+                [
+                    'value' => $values,
+                    'feature' => 'removal from the set of all strings'
+                ]
+            );
         }
     }
 
+    /// Create a Set object as an intersection of $set with $this
     public function intersect(Set $set): Set
     {
         return isset($this->set_)

@@ -5,6 +5,9 @@ namespace alcamo\collection;
 /**
  * @brief Provide contains()
  *
+ * Works when $data_ is an array as well as for $data_ objects which offer a
+ * contains() method.
+ *
  * @date Last reviewed 2025-10-13
  */
 trait ContainsTrait

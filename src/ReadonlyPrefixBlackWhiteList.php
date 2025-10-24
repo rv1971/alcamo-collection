@@ -41,7 +41,6 @@ class ReadonlyPrefixBlackWhiteList extends ReadonlyPrefixSet
     }
 
     /**
-    /**
      * @brief Create from list of prefixes
      *
      * @param $prefixText String of prefixes. Return a blacklist if the first

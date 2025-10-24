@@ -2,6 +2,7 @@
 
 namespace alcamo\collection;
 
+use alcamo\exception\Unsupported;
 use alcamo\string\StringObject;
 use Ds\Set;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +21,6 @@ class StringSetOrAnyStringTest extends TestCase
         $set2 = new StringSetOrAnyString('*');
 
         $set2->add('foo');
-        $set2->remove('bar');
 
         $this->assertFalse($set2->isFinite());
 
@@ -62,5 +62,12 @@ class StringSetOrAnyStringTest extends TestCase
             new Set([ 'baz' ]),
             $set3->intersect($fooBarBazSet)
         );
+
+        $this->expectException(Unsupported::class);
+        $this->expectExceptionMessage(
+            '"removal from the set of all strings" not supported'
+        );
+
+        $set2->remove('bar');
     }
 }

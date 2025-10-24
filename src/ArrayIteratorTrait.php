@@ -31,7 +31,7 @@ trait ArrayIteratorTrait
         next($this->data_);
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return $this->key() !== null;
     }
