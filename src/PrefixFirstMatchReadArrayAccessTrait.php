@@ -14,13 +14,19 @@ namespace alcamo\collection;
  */
 trait PrefixFirstMatchReadArrayAccessTrait
 {
+    /**
+     * @attention Returns `false` if an item at $offset exists but has the
+     * value `null`. (This is possible if $data_ is an array.) Thus,
+     * `offsetExists($offset) == false` is equivalent to `offsetGet($offset)
+     * === null`.
+     */
     public function offsetExists($offset): bool
     {
         foreach ($this->data_ as $key => $value) {
             /* strncmp() is unsuitable because it would return true also when
              * $offset were a proper intial substring of $key, instead of vice
              * versa. */
-            if (substr($offset, 0, strlen($key)) == $key) {
+            if (isset($value) && substr($offset, 0, strlen($key)) == $key) {
                 return true;
             }
         }

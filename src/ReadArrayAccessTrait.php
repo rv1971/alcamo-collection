@@ -11,6 +11,12 @@ namespace alcamo\collection;
  */
 trait ReadArrayAccessTrait
 {
+    /**
+     * @attention Returns `false` if an item at $offset exists but has the
+     * value `null`. (This is possible if $data_ is an array.) Thus,
+     * `offsetExists($offset) == false` is equivalent to `offsetGet($offset)
+     * === null`.
+     */
     public function offsetExists($offset): bool
     {
         return isset($this->data_[$offset]);
