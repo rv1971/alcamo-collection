@@ -15,11 +15,17 @@ namespace alcamo\collection;
  */
 trait ArrayDataTrait
 {
-    protected $data_; ///< array
+    /**
+     * $data_ is initialized with an empty array here so that it is guaranteed
+     * to be initialized, even when a class using this trait overwrites the
+     * constructor.
+     */
+    protected $data_ = [];
 
-    /// Ensure that $data_ is intitialized with a (potentially empty) array
     public function __construct(?array $data = null)
     {
-        $this->data_ = $data ?? [];
+        if (isset($data)) {
+            $this->data_ = $data;
+        }
     }
 }
