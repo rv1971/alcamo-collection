@@ -15,4 +15,5 @@ trait CollectionTrait
     use StringIndexedReadArrayAccessTrait;
     use StringIndexedWriteArrayAccessTrait;
     use ContainsTrait;
+    use ModifyArrayDataTrait;
 }
