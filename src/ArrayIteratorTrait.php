@@ -51,10 +51,4 @@ trait ArrayIteratorTrait
             ? $this->data_[array_key_last($this->data_)]
             : null;
     }
-
-    /// Return all array keys
-    public function getKeys(): array
-    {
-        return array_keys($this->data_);
-    }
 }

@@ -95,4 +95,29 @@ class CollectionTest extends TestCase
             [ [ 'f' => 'foo', 'b' => 'bar', 'z' => 'baz', 'x' => 'qux' ] ]
         ];
     }
+
+    public function testAdd(): void
+    {
+        $collection = new Collection([ 'foo' => 'F', 'bar' => 'B' ]);
+
+        $collection
+            ->add([ 'baz' => 'Z' ])
+            ->add(new Collection([ 'qux' => 'Q', 'bar' => 'R' ]));
+
+        $this->assertSame(
+            [ 'foo', 'bar', 'baz', 'qux' ],
+            $collection->getKeys()
+        );
+
+        foreach (
+            [
+                'foo' => 'F',
+                'bar' => 'B',
+                'baz' => 'Z',
+                'qux' => 'Q'
+            ] as $key => $expectedValue
+        ) {
+            $this->assertSame($expectedValue, $collection[$key]);
+        }
+    }
 }
