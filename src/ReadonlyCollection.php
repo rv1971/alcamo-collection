@@ -7,7 +7,7 @@ namespace alcamo\collection;
  *
  * @date Last reviewed 2025-10-14
  */
-class ReadonlyCollection implements \Countable, \Iterator, \ArrayAccess
+class ReadonlyCollection implements CollectionInterface
 {
     use ReadonlyCollectionTrait;
 }

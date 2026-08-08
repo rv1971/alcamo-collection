@@ -7,10 +7,7 @@ namespace alcamo\collection;
  *
  * @date Last reviewed 2025-10-14
  */
-class ReadonlyPrefixFirstMatchCollection implements
-    \Countable,
-    \Iterator,
-    \ArrayAccess
+class ReadonlyPrefixFirstMatchCollection implements CollectionInterface
 {
     use ReadonlyPrefixFirstMatchCollectionTrait;
 }

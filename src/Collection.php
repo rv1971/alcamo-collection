@@ -13,7 +13,7 @@ namespace alcamo\collection;
  *
  * @date Last reviewed 2025-10-14
  */
-class Collection implements \Countable, \Iterator, \ArrayAccess
+class Collection implements CollectionInterface
 {
     use CollectionTrait;
 }

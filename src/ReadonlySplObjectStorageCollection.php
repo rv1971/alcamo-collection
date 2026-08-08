@@ -7,7 +7,7 @@ namespace alcamo\collection;
  *
  * @date Last reviewed 2025-10-14
  */
-class ReadonlySplObjectStorageCollection implements \Countable, \Iterator, \ArrayAccess
+class ReadonlySplObjectStorageCollection implements CollectionInterface
 {
     use ReadonlySplObjectStorageCollectionTrait;
 }

@@ -9,7 +9,7 @@ namespace alcamo\collection;
  *
  * @date Last reviewed 2025-10-14
  */
-class SplObjectStorageCollection implements \Countable, \Iterator, \ArrayAccess
+class SplObjectStorageCollection implements CollectionInterface
 {
     use SplObjectStorageCollectionTrait;
 }
