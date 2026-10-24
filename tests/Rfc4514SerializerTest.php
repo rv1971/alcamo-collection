@@ -54,6 +54,16 @@ class Rfc4514SerializerTest extends TestCase
                 'foo=FOO\\\\\\+\\\\01,bar=42,'
                 . 'baz=Lorem\\ ipsum\\,\\0Adolor\+sit\09amet\;,'
                 . 'qux=\\,Q\\,\\=\\,U\\=X\\,,quux='
+            ],
+            [
+                /* This test succeeds thanks to the lookbehind assertion in
+                 * Rfc4514Serializer::ODD_LENGTH_BACKSLASH_SEQUENCE_REGEXP. */
+                [
+                    'corge1' => "\\\x01",
+                    'corge2' => "\\\\0A",
+                    'corge3' => "\\\\\\\\0B"
+                ],
+                'corge1=\\\\\\01,corge2=\\\\\\\\0A,corge3=\\\\\\\\\\\\\\\\0B'
             ]
         ];
     }
@@ -111,5 +121,22 @@ class Rfc4514SerializerTest extends TestCase
         );
 
         $serializer->deserialize('foo=ba\\.r');
+    }
+
+    public function testDeserializeException3(): void
+    {
+        /* This test succeeds thanks to the lookbehind assertion in
+         * Rfc4514Serializer::ODD_LENGTH_BACKSLASH_SEQUENCE_REGEXP. */
+
+        $serializer = new Rfc4514Serializer();
+
+        $this->expectException(SyntaxError::class);
+
+        $this->expectExceptionMessage(
+            'Syntax error in "ba\\\\\\.r" for key "foo"; '
+                . 'not valid RFC 4514 syntax'
+        );
+
+        $serializer->deserialize('foo=ba\\\\\\.r');
     }
 }

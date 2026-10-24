@@ -84,13 +84,25 @@ class Rfc4514Serializer
         '/([A-Za-z][-0-9A-Za-z]*)=(([^,\\\\]*(\\\\.)*)*),/A';
 
     /**
+     * @brief Regexp describing a sequence of backslashes of odd length
+     *
+     * The lookbehind assertion ensures that the last backslash is not
+     * preceded by a sequence of backslashes of odd length (of at most 15
+     * backslashes since a lookbehind assertion must be of limited length).
+     */
+    public const ODD_LENGTH_BACKSLASH_SEQUENCE_REGEXP =
+        '(?<!(?:^|[^\\\\])\\\\(?:\\\\\\\\){0,7})\\\\';
+
+    /**
      * @brief Regexp describing a hexstring escape
      *
      * @sa [RFC 4514 section 3](https://www.rfc-editor.org/info/rfc4514/#section-3)
      */
-    public const HEXSTRING_REGEXP = '/(?<!\\\\)\\\\([0-9A-Fa-f]{2})/';
+    public const HEXSTRING_REGEXP =
+        '/' . self::ODD_LENGTH_BACKSLASH_SEQUENCE_REGEXP . '([0-9A-Fa-f]{2})/';
 
-    public const INVALID_ESCAPE = '/(?<!\\\\)\\\\[^ "#+,;<=>\\\\]/';
+    public const INVALID_ESCAPE =
+        '/' . self::ODD_LENGTH_BACKSLASH_SEQUENCE_REGEXP . '[^ "#+,;<=>\\\\]/';
 
     /**
      * @brief Serialize any iterable to a string in RFC 4514 syntax
