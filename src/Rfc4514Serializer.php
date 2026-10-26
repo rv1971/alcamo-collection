@@ -143,7 +143,7 @@ class Rfc4514Serializer
         return $result;
     }
 
-    public function deserialize(string $text, &$result = null)
+    public function deserialize(string $text, &$result = null): iterable
     {
         if (!isset($result)) {
             $result = [];
