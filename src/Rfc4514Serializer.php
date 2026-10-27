@@ -83,15 +83,9 @@ class Rfc4514Serializer
     public const PARSE_REGEXP =
         '/([A-Za-z][-0-9A-Za-z]*)=(([^,\\\\]*(\\\\.)*)*),/A';
 
-    /**
-     * @brief Regexp describing a sequence of backslashes of odd length
-     *
-     * The lookbehind assertion ensures that the last backslash is not
-     * preceded by a sequence of backslashes of odd length (of at most 15
-     * backslashes since a lookbehind assertion must be of limited length).
-     */
+    /// Regexp describing a sequence of backslashes of odd length
     public const ODD_LENGTH_BACKSLASH_SEQUENCE_REGEXP =
-        '(?<!(?:^|[^\\\\])\\\\(?:\\\\\\\\){0,7})\\\\';
+        '(?:^|[^\\\\])(?:\\\\\\\\)*\\\\';
 
     /**
      * @brief Regexp describing a hexstring escape
@@ -164,8 +158,9 @@ class Rfc4514Serializer
         ) {
             $value = preg_replace_callback(
                 static::HEXSTRING_REGEXP,
-                function ($matches) {
-                    return chr(intval($matches[1], 16));
+                function ($matches2) {
+                    return substr($matches2[0], 0, strlen($matches2[0]) - 3)
+                        . chr(intval($matches2[1], 16));
                 },
                 $matches[2][0]
             );
