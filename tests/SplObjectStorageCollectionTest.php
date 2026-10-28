@@ -87,4 +87,21 @@ class SplObjectStorageCollectionTest extends TestCase
             [ $data1 ]
         ];
     }
+
+    public function testClone(): void
+    {
+        $collection1 = new SplObjectStorageCollection();
+
+        $collection1[$this->foo] = 'foo';
+
+        $this->assertSame(1, count($collection1));
+
+        $collection2 = clone $collection1;
+
+        $collection2[$this->bar] = 'bar';
+
+        $this->assertSame(2, count($collection2));
+
+        $this->assertSame(1, count($collection1));
+    }
 }

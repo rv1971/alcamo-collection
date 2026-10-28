@@ -45,17 +45,6 @@ class CloneTest extends TestCase
     {
         $key = (object)[];
 
-        $collection1 = new SplObjectStorageCollection();
-        $collection1[$key] = 'bar';
-
-        $collection2 = clone $collection1;
-
-        $collection2[$key] = 'qux';
-
-        $this->assertSame('qux', $collection1[$key]);
-
-        $this->assertSame('qux', $collection2[$key]);
-
         $collection3 = new MySplObjectStorageCollection();
         $collection3[$key] = 'bar';
 

@@ -21,4 +21,9 @@ trait SplObjectStorageDataTrait
     {
         $this->data_ = $data ?? new \SplObjectStorage();
     }
+
+    public function __clone()
+    {
+        $this->data_ = clone $this->data_;
+    }
 }
