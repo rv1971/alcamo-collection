@@ -11,15 +11,9 @@ trait SerializableTrait
 {
     public static function newFromString(string $text): object
     {
-        $result = new static();
-
         $class = static::SERIALIZER_CLASS;
 
-        /* With $result->data_ instead of $result, this also works if $result
-         * is a ReadyonlyCollection. */
-        (new $class())->deserialize($text, $result->data_);
-
-        return $result;
+        return new static((new $class())->deserialize($text));
     }
 
     public function __toString(): string
