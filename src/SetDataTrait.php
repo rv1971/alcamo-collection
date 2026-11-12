@@ -19,9 +19,9 @@ trait SetDataTrait
      * @brief Ensure that $data_ is intitialized with a (potentially empty)
      * Set
      */
-    public function __construct(?Set $data = null)
+    public function __construct(?iterable $data = null)
     {
-        $this->data_ = $data ?? new Set();
+        $this->data_ = $data instanceof Set ? $data : new Set($data ?? []);
     }
 
     public function __clone()

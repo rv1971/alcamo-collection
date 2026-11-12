@@ -10,7 +10,7 @@ class SetCollectionTest extends TestCase
     /**
      * @dataProvider basicsProvider
      */
-    public function testBasics(?Set $data): void
+    public function testBasics($data): void
     {
         /* test SetDataTrait */
         $collection = new SetCollection($data);
@@ -26,7 +26,10 @@ class SetCollectionTest extends TestCase
                 $data2->add($value);
             }
 
-            $this->assertEquals($data, $data2);
+            $this->assertEquals(
+                is_array($data) ? new Set($data) : $data,
+                $data2
+            );
         }
     }
 
@@ -34,6 +37,7 @@ class SetCollectionTest extends TestCase
     {
         return [
             [ null ],
+            [ [ 1, 2, 3 ] ],
             [ new Set([ 'foo', 'bar', 'baz']) ]
         ];
     }
